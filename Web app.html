@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>NN Classifier</title>
+<style>
+{
+    font-size:30px;
+    }
+</style>
+<h1 style="text-align:center;">Image Classification</h1>
+</head>
+<body>
+<input id="image-selector" type="file">
+<button id="predict-button">Predict</button>
+<h3 style="font-weight:bold">Predictions</h3>
+<h3>India Gate %: <span id="Doors-pred"></span></h3>
+<h3>Qutub Minar %: <span id="Sign-pred"></span></h3>
+<h3>Taj Mahal %: <span id="Stairs-pred"></span></h3>
+<img id="selected-image" src="" width="500" height="500"/>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+let base64Image;
+
+$("#image-selector").change(function(){
+	
+    let reader=new FileReader();
+    reader.onload=function(e){
+    let dataURL=reader.result;
+    //image stored as base64 encoded string and dataURL holds image URL
+	
+        $('#selected-image').attr("src",dataURL);//Causes the image to be displayed on the page
+	base64Image=dataURL.replace("data:image/jpg;base64,","");
+	var img=new Image();
+	img.src=dataURL;
+	document.getElementsById.innerhtml="<img src="+img.src+"/>";
+	
+	console.log(base64Image);
+	}
+	
+    
+    reader.readAsDataURL($("#image-selector")[0].files[0]);
+    $("#Doors-pred").text("");
+    $("#Sign-pred").text("");
+    $("#Stairs-pred").text("");
+});
+
+$("#predict-button").click(function(event){
+    let message={
+        image:base64Image
+        }
+    console.log(message);
+    $.post("http://localhost:5000/project/predict",JSON.stringify(message),function(response){
+        $("#Doors-pred").text(response.prediction.Doors.toFixed(6));
+        $("#Sign-pred").text(response.prediction.Sign.toFixed(6));
+        $("#Stairs-pred").text(response.prediction.Stairs.toFixed(6));
+	console.log(response);
+        });
+    });
+
+
+</script>        
+</body>
+</html>
+
