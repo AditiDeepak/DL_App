@@ -1,2 +1,2 @@
 # DL_App
-The first step is to build the backend with trained model. Then, the frontend of the application is built using HTML. 
+Built the architecture of a Convolutional Neural Network to solve the landmark recognition problem. The dataset consists of images of three classes (multi-class classification problem) - Taj Mahal, Qutub-Minar and India Gate pre-processing steps like augmentation, resizing etc and is then fed into the model for training. Finally, flask is used to build a web application so that the user can obtain predictions based on his/her preference.  
